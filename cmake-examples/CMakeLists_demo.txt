@@ -1,0 +1,80 @@
+cmake_minimum_required(VERSION 3.4.1)
+
+
+set(PROJECT_NAME "demo")
+
+project(${PROJECT_NAME})
+
+
+set(CMAKE_VERBOSE_MAKEFILE on)
+set (CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+
+
+set(CUR_DIR ${CMAKE_CURRENT_LIST_DIR})
+
+file(GLOB_RECURSE demo_SRC
+    CONFIGURE_DEPENDS
+    ${CUR_DIR}/src/*.h
+    ${CUR_DIR}/src/*.cpp
+)
+
+#message( ${demo_SRC} )
+
+add_library(
+        ${PROJECT_NAME}
+
+        SHARED
+
+        #source file(s)
+        ${demo_SRC}
+        )
+
+
+# Link libs
+set(ARCH ${CMAKE_HOST_SYSTEM_PROCESSOR})
+
+if( ${ARCH} STREQUAL "x86_64" )
+    message( "arch: x86_64" )
+    file(GLOB_RECURSE EXT_LIB
+        CONFIGURE_DEPENDS
+        ${CUR_DIR}/libs/x86_64-lib/*.so
+    )
+    set(OpenCV_DIR ${CMAKE_CURRENT_LIST_DIR}/libs/x86_64-opencv/lib/cmake/opencv4)
+else()
+    message( "arch: aarch64" )
+    file(GLOB_RECURSE EXT_LIB
+        CONFIGURE_DEPENDS
+        ${CUR_DIR}/libs/aarch64-lib/*.so
+    )
+    set(OpenCV_DIR ${CMAKE_CURRENT_LIST_DIR}/libs/aarch64-opencv/lib/cmake/opencv4)
+endif()
+target_link_libraries(${PROJECT_NAME} ${EXT_LIB})
+
+# OpenCV libs
+find_package(OpenCV REQUIRED)
+include_directories(${OpenCV_INCLUDE_DIRS})
+target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})
+
+
+MACRO(SUBDIRLIST result curdir)
+  FILE(GLOB children RELATIVE ${curdir} ${curdir}/*)
+  SET(dirlist "")
+  FOREACH(child ${children})
+    IF(IS_DIRECTORY ${curdir}/${child})
+      LIST(APPEND dirlist ${child})
+    ENDIF()
+  ENDFOREACH()
+  SET(${result} ${dirlist})
+ENDMACRO()
+
+
+SUBDIRLIST(SUBDIRS ${CUR_DIR}/src)
+FOREACH(subdir ${SUBDIRS})
+  #message(${CUR_DIR}/src/${subdir})
+  include_directories(${CUR_DIR}/src/${subdir})
+ENDFOREACH()
+
+include_directories(${CUR_DIR}/include ${CUR_DIR}/src)
+
