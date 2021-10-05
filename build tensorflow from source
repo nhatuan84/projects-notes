@@ -1,0 +1,20 @@
+Build tensorflow C++:
+- Check version compability of TF-Bazel-compiler: https://www.tensorflow.org/install/source
+- Download "bazel-xxx-dist.zip" => unzip => run command "EXTRA_BAZEL_ARGS='--host_javabase=@local_jdk//:jdk' ./compile.sh" => copy output binary to "/usr/local/bin"
+- Download "tensorflow-xxx.zip" => unzip => run "./configure" (build with cuda must choose YES) => (build c_api, c++ lib, python package)
+bazel build -s -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package //tensorflow:libtensorflow.so //tensorflow:libtensorflow_cc.so
+- After finished compiling, copy the output to specific folders:
+  "sudo cp -r bazel-genfiles/ where_you_put_cc_code"
+  "sudo cp -r tensorflow/cc where_you_put_cc_code/tensorflow"
+  "sudo cp -r tensorflow/core where_you_put_cc_code/tensorflow"
+  "sudo cp -r third_party where_you_put_cc_code"
+  "sudo cp bazel-bin/tensorflow/libtensorflow_cc.so where_you_put_cc_code/lib"
+  "sudo cp bazel-bin/tensorflow/libtensorflow_framework.so where_you_put_cc_code/lib"
+- Protobuf
+   + Download "protobuf-3.6.0.zip", unzip and run commands: "./autogen.sh", "./configure", "make && sudo make install", "sudo ldconfig"
+ - Eigen3
+   + Run "sudo apt install libeigen3-dev", "sudo ldconfig"
+ - Cmake
+   + Run "sudo apt-get install cmake"
+ - Opencv
+   + Run "sudo apt-get install libopencv-dev", "sudo ldconfig"
