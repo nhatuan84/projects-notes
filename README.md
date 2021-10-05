@@ -1,2 +1,1 @@
-# cmake-examples
-cmake-examples
+notes when doing projects
