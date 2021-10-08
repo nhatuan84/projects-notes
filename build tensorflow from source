@@ -1,5 +1,9 @@
 Build tensorflow from source code for PC and edge device:
 - Check version compability of TF-Bazel-compiler: https://www.tensorflow.org/install/source
+- Install JDK: sudo apt install default-jdk
+- set JAVA_HOME
+   export JAVA_HOME="/usr/lib/jvm/java-11-openjdk-arm64/"
+   export PATH=$JAVA_HOME/bin:$PATH
 - Download "bazel-xxx-dist.zip" => unzip => run command "EXTRA_BAZEL_ARGS='--host_javabase=@local_jdk//:jdk' ./compile.sh" => copy output binary to "/usr/local/bin"
 - Download "tensorflow-xxx.zip" => unzip => run "./configure" (build with cuda must choose YES) => (build c_api, c++ lib, python package)
 bazel build -s -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package //tensorflow:libtensorflow.so //tensorflow:libtensorflow_cc.so
