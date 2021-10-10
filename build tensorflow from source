@@ -17,8 +17,15 @@ bazel build -s -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_pac
 - Protobuf
    + Download "protobuf-3.6.0.zip", unzip and run commands: "./autogen.sh", "./configure", "make && sudo make install", "sudo ldconfig"
  - Eigen3
-   + Run "sudo apt install libeigen3-dev", "sudo ldconfig"
+   # Download eigen 3.3.4 from https://github.com/eigenteam/eigen-git-mirror/releases
+   unzip eigen-git-mirror-3.3.4.zip
+   cd eigen-git-mirror
+   mkdir build && cd build
+   cmake ..
+   make
+   sudo make install
  - Cmake
    + Run "sudo apt-get install cmake"
+   include_directories("/usr/local/include/eigen3")
  - Opencv
    + Run "sudo apt-get install libopencv-dev", "sudo ldconfig"
