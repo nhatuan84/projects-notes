@@ -6,6 +6,7 @@ Build tensorflow from source code for PC and edge device:
    export PATH=$JAVA_HOME/bin:$PATH
 - Download "bazel-xxx-dist.zip" => unzip => run command "EXTRA_BAZEL_ARGS='--host_javabase=@local_jdk//:jdk' ./compile.sh" => copy output binary to "/usr/local/bin"
 - Download "tensorflow-xxx.zip" => unzip => run "./configure" (build with cuda must choose YES) => (build c_api, c++ lib, python package)
+- export TEST_TMPDIR=/instead/of/default/cache
 bazel build -s -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_package //tensorflow:libtensorflow.so //tensorflow:libtensorflow_cc.so
 - After finished compiling, copy the output to specific folders:
   "sudo cp -r bazel-genfiles/ where_you_put_cc_code"
