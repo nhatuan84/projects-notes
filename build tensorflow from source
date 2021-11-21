@@ -30,3 +30,16 @@ bazel build -s -c opt --config=cuda //tensorflow/tools/pip_package:build_pip_pac
    include_directories("/usr/local/include/eigen3")
  - Opencv
    + Run "sudo apt-get install libopencv-dev", "sudo ldconfig"
+
+Build TFLite for raspberry pi3 using CMake cross compiler or not
+
+ARMCC_FLAGS="-march=armv7-a -mfpu=neon-vfpv4 -mfp16-format=ieee -funsafe-math-optimizations"
+ARMCC_PREFIX=${HOME}/toolchains/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/bin/arm-linux-gnueabihf-
+cmake -DCMAKE_C_COMPILER=${ARMCC_PREFIX}gcc \
+  -DCMAKE_CXX_COMPILER=${ARMCC_PREFIX}g++ \
+  -DCMAKE_C_FLAGS="${ARMCC_FLAGS}" \
+  -DCMAKE_CXX_FLAGS="${ARMCC_FLAGS}" \
+  -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON \
+  -DCMAKE_SYSTEM_NAME=Linux \
+  -DCMAKE_SYSTEM_PROCESSOR=armv7 \
+  ../tensorflow/lite/
