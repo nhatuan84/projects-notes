@@ -1,1 +1,22 @@
-readelf -d libadas.so
+read symbols in .so: readelf -d libadas.so
+
+
+build opencv using Cmake:
+
+/home/tuan/Android/Sdk/cmake/3.18.1/bin/cmake \
+ -DCMAKE_TOOLCHAIN_FILE=/home/tuan/Android/Sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake   \
+ -DOPENCV_EXTRA_MODULES_PATH=/home/tuan/1.PROJECTS/jvck/build_sw/opencv_contrib-4.5.4/modules \
+ -DBUILD_SHARED_LIBS=ON \
+ -DBUILD_FAT_JAVA_LIB=OFF \
+ -DANDROID_STL=c++_shared \
+ -DBUILD_JAVA=OFF \
+ -DBUILD_ANDROID_EXAMPLES=OFF \
+ -DCMAKE_INSTALL_PREFIX=/home/tuan/1.PROJECTS/jvck/build_sw/opencv_android \
+ -DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=31 ..
+ 
+ build project with Cmake:
+ 
+ cmake \
+ -DCMAKE_TOOLCHAIN_FILE=/home/tuan/Android/Sdk/ndk/23.1.7779620/build/cmake/android.toolchain.cmake \
+ -DANDROID=ON \
+ -DANDROID_ABI=arm64-v8a -DANDROID_NATIVE_API_LEVEL=31 ..
