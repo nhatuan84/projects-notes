@@ -52,6 +52,11 @@ else()
 endif()
 target_link_libraries(${PROJECT_NAME} ${EXT_LIB})
 
+#relative linking prebuilt shared library, copy it to the same folder of executable file
+set_target_properties(${PROJECT_NAME} PROPERTIES
+        BUILD_WITH_INSTALL_RPATH FALSE
+        LINK_FLAGS "-Wl,-rpath,./")
+        
 # OpenCV libs
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
